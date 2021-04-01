@@ -3,7 +3,7 @@ class Admin::CategoriesController < ApplicationController
                                password: Rails.configuration.admin_login[:password]
 
   def index
-    @categories = Category.order(:name).all
+    @categories = Category.all
   end
 
   def new
