@@ -54,17 +54,30 @@ RSpec.describe User, type: :model do
   end
 
   describe '.authenticate_with_credentials' do
-    it 'authenticates and logs in user with credentials' do
+    it 'authenticates, logs in user with credentials' do
       @user = User.new(first_name: "One", last_name: "Two", email: "one@one.com", password: "55555", password_confirmation: "55555")
       @user.save!
       expect(@user.authenticate_with_credentials(@user.email, @user.password)).to eq(@user)
     end
 
-    it 'does not log in a user with invalid email credentials' do
+    it 'authenticates, does NOT log in a user with invalid email credentials' do
       @user = User.new(first_name: "One", last_name: "Two", email: "one@one.com", password: "55555", password_confirmation: "55555")
       @user.save!
       expect(@user.authenticate_with_credentials("not that email", @user.password)).to eq(nil)
     end
+
+    it 'authenticates, logs in a user with valid email credentials but spaces before or after their email' do
+      @user = User.new(first_name: "One", last_name: "Two", email: "one@one.com", password: "55555", password_confirmation: "55555")
+      @user.save!
+      expect(@user.authenticate_with_credentials("   one@one.com ", @user.password)).to eq(@user)
+    end
+
+    it 'authenticates, logs in a user with valid email credentials but the wrong case' do
+      @user = User.new(first_name: "One", last_name: "Two", email: "one@one.com", password: "55555", password_confirmation: "55555")
+      @user.save!
+      expect(@user.authenticate_with_credentials("ONe@ONE.cOm", @user.password)).to eq(@user)
+    end
+    
 
   end
 

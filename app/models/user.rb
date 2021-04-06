@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   validates :password_digest, presence: true
 
   def authenticate_with_credentials(email, password)
-    user = User.find_by_email(email.strip)
+    user = User.find_by_email(email.strip.downcase)
     if user && user.authenticate(password.strip)
       return user
     else
