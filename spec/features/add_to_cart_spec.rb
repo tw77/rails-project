@@ -16,9 +16,9 @@ RSpec.feature "Visitor navigates to product page", type: :feature, js: true do
     end
   end
 
-  scenario "They click the Details link on a product and see its details" do
+  scenario "They click the 'Add to Cart' button and their cart increases by one" do
     visit root_path
-    first("article.product").find_link('Details').click
-    expect(page).to have_content "Description"
+    first("article.product").find_button('Add').click
+    expect(page).to have_content "My Cart (1)"
   end
 end 
